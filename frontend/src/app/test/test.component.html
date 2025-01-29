@@ -1,0 +1,20 @@
+<table mat-table [dataSource]="testDataSource">
+
+  <ng-container matColumnDef="firstName">
+    <th mat-header-cell *matHeaderCellDef> First Name </th>
+    <td mat-cell *matCellDef="let test"> {{ test.firstName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="lastName">
+    <th mat-header-cell *matHeaderCellDef> Last Name </th>
+    <td mat-cell *matCellDef="let test"> {{ test.lastName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="age">
+    <th mat-header-cell *matHeaderCellDef> Age </th>
+    <td mat-cell *matCellDef="let test"> {{ test.age }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['firstName', 'lastName', 'age']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['firstName', 'lastName', 'age']"></tr>
+</table>

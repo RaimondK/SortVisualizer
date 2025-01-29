@@ -1,0 +1,14 @@
+<div class="app-header" >
+  <app-header></app-header>
+</div>
+<div class="container">
+  <app-sidebar></app-sidebar>
+</div>
+
+<div class="content" [ngClass]="isSidebarVisible ? 'with-sidebar' : 'without-sidebar'">
+  <app-chart></app-chart>
+</div>
+
+<div class="app-footer" >
+  <app-footer></app-footer>
+</div>

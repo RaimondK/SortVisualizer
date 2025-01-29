@@ -1,0 +1,17 @@
+<div class="sidebar" [ngClass]="{ 'showSidebar': isSidebarVisible, 'hideSidebar': !isSidebarVisible }" [@fadeInOut]>
+  <ul>
+    <li>
+      <a routerLink="/Test" routerLinkActive="active">
+        <span class="material-symbols-outlined">directions_run</span>
+        <span>QuickSort</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/Test1" routerLinkActive="active">
+        <span class="material-symbols-outlined">bubble_chart</span>
+        <span>BubbleSort</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
