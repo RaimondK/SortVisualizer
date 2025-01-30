@@ -27,7 +27,7 @@ export class ChartComponent {
     data: [{
       type: "column", //change type to bar, line, area, pie, etc
       //indexLabel: "{y}", //Shows y value on all Data Points
-      color: 'green',
+      color: "green",
       backgroundColor: "#F5DEB3",
       indexLabelFontColor: "#5A5757",
       dataPoints: this.generateDataPoints(),
