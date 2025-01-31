@@ -81,28 +81,29 @@ export class ChartComponent {
     const dataPoints = this.chartOptions.data[0].dataPoints;
 
     for (let i = 0; i < 5; i++) {
-
-      let idx1 = Math.floor(Math.random() * dataPoints.length);
-      let idx2 = Math.floor(Math.random() * dataPoints.length);
-
-      while (idx1 === idx2) {
-        idx2 = Math.floor(Math.random() * dataPoints.length);
-      }
-
-      dataPoints[idx1].color = 'red';
-      dataPoints[idx2].color = 'blue';
-
-      this.chart.render();
-
       setTimeout(() => {
-        const tmp = dataPoints[idx1].y;
-        dataPoints[idx1].y = dataPoints[idx2].y;
-        dataPoints[idx2].y = tmp;
+        let idx1 = Math.floor(Math.random() * dataPoints.length);
+        let idx2 = Math.floor(Math.random() * dataPoints.length);
 
-        dataPoints[idx1].color = 'green';
-        dataPoints[idx2].color = 'green';
+        while (idx1 === idx2) {
+          idx2 = Math.floor(Math.random() * dataPoints.length);
+        }
+
+        dataPoints[idx1].color = 'red';
+        dataPoints[idx2].color = 'blue';
+
         this.chart.render();
-      }, i * 500);
+
+        setTimeout(() => {
+          const tmp = dataPoints[idx1].y;
+          dataPoints[idx1].y = dataPoints[idx2].y;
+          dataPoints[idx2].y = tmp;
+
+          dataPoints[idx1].color = 'green';
+          dataPoints[idx2].color = 'green';
+          this.chart.render();
+        }, 700);
+      }, i * 1000);
     }
   }
 
