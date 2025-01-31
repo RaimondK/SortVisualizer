@@ -99,11 +99,17 @@ export class ChartComponent {
           dataPoints[idx1].y = dataPoints[idx2].y;
           dataPoints[idx2].y = tmp;
 
-          dataPoints[idx1].color = 'green';
-          dataPoints[idx2].color = 'green';
+          dataPoints[idx1].color = 'blue';
+          dataPoints[idx2].color = 'red';
           this.chart.render();
-        }, 700);
-      }, i * 1000);
+
+          setTimeout(() => {
+            dataPoints[idx1].color = 'green';
+            dataPoints[idx2].color = 'green';
+            this.chart.render();
+          },300);
+        }, 1000);
+      }, i * 1500);
     }
   }
 
