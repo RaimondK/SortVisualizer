@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {HeaderComponent} from "../../layout/header/header.component";
-import {SidebarComponent} from "../../layout/sidebar/sidebar.component";
-import {FooterComponent} from "../../layout/footer/footer.component";
+import {HeaderComponent} from "../header/header.component";
+import {SidebarComponent} from "../sidebar/sidebar.component";
+import {FooterComponent} from "../footer/footer.component";
 import {NgClass} from "@angular/common";
 import {TestComponent} from "../../test/test.component";
 import {SidebarService} from "../../services/sidebar/sidebar.service";
-import {ChartComponent} from "../chart/chart.component";
+import {ChartComponent} from "../../components/chart/chart.component";
 
 @Component({
   selector: 'app-main',
@@ -31,5 +31,4 @@ export class MainComponent implements OnInit {
       this.isSidebarVisible = isVisible;
     })
   }
-
 }
