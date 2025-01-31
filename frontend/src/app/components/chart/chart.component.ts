@@ -18,7 +18,7 @@ export class ChartComponent {
   chartOptions = {
     exportEnabled: true,
     title: {
-      text: "Testing canvasjs charts"
+      text: "Sorting algorithms"
     },
     animationEnabled: true,
     axisY: {
@@ -36,7 +36,7 @@ export class ChartComponent {
 
   generateDataPoints() {
     const dataPoints = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 100; i++) {
       dataPoints.push({
         y: Math.floor(Math.random() * 1000) + 1,
         color: 'green'
@@ -44,6 +44,24 @@ export class ChartComponent {
     }
     return dataPoints;
   }
+
+// This generates the columns in an "animated" way,
+// but it's a bit too much, might use it later.
+
+  /*  generateDataPoints() {
+      const dataPoints: { y: number; color: string; }[] = [];
+      for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+          dataPoints.push({
+            y: Math.floor(Math.random() * 1000) + 1,
+            color: 'green'
+          });
+          console.log("Adding data points")
+          this.chart.render();
+        }, i * 50)
+      }
+      return dataPoints;
+    }*/
 
   updateChart() {
     this.chartOptions.data[0].dataPoints = this.generateDataPoints();
@@ -62,52 +80,51 @@ export class ChartComponent {
   swapColumns() {
     const dataPoints = this.chartOptions.data[0].dataPoints;
 
-    let idx1 = Math.floor(Math.random() * dataPoints.length);
-    let idx2 = Math.floor(Math.random() * dataPoints.length);
+    for (let i = 0; i < 5; i++) {
 
-    while (idx1 === idx2) {
-      idx2 = Math.floor(Math.random() * dataPoints.length);
-    }
+      let idx1 = Math.floor(Math.random() * dataPoints.length);
+      let idx2 = Math.floor(Math.random() * dataPoints.length);
 
-    dataPoints[idx1].color = 'red';
-    dataPoints[idx2].color = 'blue';
+      while (idx1 === idx2) {
+        idx2 = Math.floor(Math.random() * dataPoints.length);
+      }
 
-    this.chart.render();
+      dataPoints[idx1].color = 'red';
+      dataPoints[idx2].color = 'blue';
 
-    setTimeout(() => {
-      const tmp = dataPoints[idx1].y;
-      dataPoints[idx1].y = dataPoints[idx2].y;
-      dataPoints[idx2].y = tmp;
-
-      dataPoints[idx1].color = 'green';
-      dataPoints[idx2].color = 'green';
       this.chart.render();
-    }, 500);
+
+      setTimeout(() => {
+        const tmp = dataPoints[idx1].y;
+        dataPoints[idx1].y = dataPoints[idx2].y;
+        dataPoints[idx2].y = tmp;
+
+        dataPoints[idx1].color = 'green';
+        dataPoints[idx2].color = 'green';
+        this.chart.render();
+      }, i * 500);
+    }
   }
-
-
 
   addData() {
-    let count = 0;
-    const interval = setInterval(() => {
-      if (count < 5) {
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
         this.chartOptions.data[0].dataPoints.push({
           y: Math.floor(Math.random() * 1000) + 1,
-          color: 'yellow'
-        });
+          color: 'purple'
+        })
         this.chart.render();
-        count++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 500);
+      }, i * 500);
+    }
   }
-}
 
+  quickSort() {
+    const data = this.chartOptions.data[0].dataPoints;
+    this.qs(data, 0, data.length - 1);
+    this.chart.render();
+  }
 
-
-/*  Will use this later maybe for swapping
-    qs(arr: { y: number }[], low: number, high: number) {
+  qs(arr: { y: number }[], low: number, high: number) {
     if (low >= high) {
       return
     }
@@ -126,16 +143,18 @@ export class ChartComponent {
     for (let i = low; i < high; i++) {
       if (arr[i].y <= pivot) {
         idx++;
-        const tmp = arr[i];
-        arr[i] = arr[idx];
-        arr[idx] = tmp;
+        const tmp = arr[i].y;
+        arr[i].y = arr[idx].y;
+        arr[idx].y = tmp;
       }
     }
 
     idx++;
-    const tmp = arr[high];
-    arr[high] = arr[idx];
-    arr[idx] = tmp;
+    const tmp = arr[high].y;
+    arr[high].y = arr[idx].y;
+    arr[idx].y = tmp;
 
     return idx;
-  }*/
+  }
+}
+
