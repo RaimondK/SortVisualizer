@@ -6,6 +6,8 @@ import {NgClass} from "@angular/common";
 import {TestComponent} from "../../test/test.component";
 import {SidebarService} from "../../services/sidebar/sidebar.service";
 import {ChartComponent} from "../../components/chart/chart.component";
+import {WelcomeComponent} from "../../components/welcome/welcome.component";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'app-main',
@@ -16,7 +18,9 @@ import {ChartComponent} from "../../components/chart/chart.component";
     FooterComponent,
     NgClass,
     TestComponent,
-    ChartComponent
+    ChartComponent,
+    WelcomeComponent,
+    RouterOutlet
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'

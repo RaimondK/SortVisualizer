@@ -27,7 +27,7 @@ export class ChartComponent {
     data: [{
       type: "column", //change type to bar, line, area, pie, etc
       //indexLabel: "{y}", //Shows y value on all Data Points
-      color: "green",
+      color: "#6b6b6b",
       backgroundColor: "#F5DEB3",
       indexLabelFontColor: "#5A5757",
       dataPoints: this.generateDataPoints(),
@@ -39,7 +39,7 @@ export class ChartComponent {
     for (let i = 0; i < 100; i++) {
       dataPoints.push({
         y: Math.floor(Math.random() * 1000) + 1,
-        color: 'green'
+        color: '#6b6b6b'
       });
     }
     return dataPoints;
@@ -104,8 +104,8 @@ export class ChartComponent {
           this.chart.render();
 
           setTimeout(() => {
-            dataPoints[idx1].color = 'green';
-            dataPoints[idx2].color = 'green';
+            dataPoints[idx1].color = '#6b6b6b';
+            dataPoints[idx2].color = '#6b6b6b';
             this.chart.render();
           },300);
         }, 1000);
@@ -118,7 +118,7 @@ export class ChartComponent {
       setTimeout(() => {
         this.chartOptions.data[0].dataPoints.push({
           y: Math.floor(Math.random() * 1000) + 1,
-          color: 'purple'
+          color: '#6b6b6b'
         })
         this.chart.render();
       }, i * 500);
