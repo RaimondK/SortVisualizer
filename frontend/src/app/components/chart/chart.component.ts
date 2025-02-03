@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
 import {SidebarService} from "../../services/sidebar/sidebar.service";
 
@@ -11,9 +11,10 @@ import {SidebarService} from "../../services/sidebar/sidebar.service";
   templateUrl: './chart.component.html',
   styleUrl: './chart.component.scss'
 })
-export class ChartComponent implements OnInit {
+export class ChartComponent implements OnInit, OnDestroy {
 
   chart: any;
+  private animationFrameId: number | null = null;
 
   title = 'angular17ssrapp';
   chartOptions = {
@@ -48,11 +49,38 @@ export class ChartComponent implements OnInit {
   ngOnInit(): void {
     this.sidebarService.sidebarVisibility.subscribe(() => {
       if (this.chart) {
-        setTimeout(() => {
-          this.chart.render();
-        }, 300);
+        this.startAnimation();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.stopAnimation();
+  }
+
+  startAnimation() {
+    const duration = 300;
+    const startTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const elapsedTime = currentTime - startTime;
+
+      if (elapsedTime < duration) {
+        this.chart.render();
+        this.animationFrameId = requestAnimationFrame(animate);
+      } else {
+        this.stopAnimation();
+      }
+    };
+
+    this.animationFrameId = requestAnimationFrame(animate);
+  }
+
+  stopAnimation() {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
   }
 
   getChartInstance(chart: any) {
@@ -100,6 +128,7 @@ export class ChartComponent implements OnInit {
 
   swapColumns() {
     const dataPoints = this.chartOptions.data[0].dataPoints;
+    let delay = 0;
 
     for (let i = 0; i < 5; i++) {
       setTimeout(() => {
@@ -112,7 +141,6 @@ export class ChartComponent implements OnInit {
 
         dataPoints[idx1].color = 'red';
         dataPoints[idx2].color = 'blue';
-
         this.chart.render();
 
         setTimeout(() => {
@@ -130,7 +158,7 @@ export class ChartComponent implements OnInit {
             this.chart.render();
           }, 300);
         }, 1000);
-      }, i * 1500);
+      }, delay += 1500);
     }
   }
 
@@ -187,17 +215,36 @@ export class ChartComponent implements OnInit {
 
   bubbleSort() {
     const data = this.chartOptions.data[0].dataPoints;
-    for (let i = 0; i < data.length - 1; i++) {
-        for (let j = 0; j < data.length - i - 1; j++) {
-          setTimeout(() => {
-            if (data[j].y > data[j + 1].y) {
-              let temp = data[j].y;
+    let delay = 0;
+
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data.length - 1 - i; j++) {
+        setTimeout(() => {
+          data[j].color = 'green';
+          this.chart.render();
+
+          if (data[j].y > data[j + 1].y) {
+
+            setTimeout(() => {
+              const temp = data[j].y;
               data[j].y = data[j + 1].y;
               data[j + 1].y = temp;
-            }
-            this.chart.render();
-          }, 100);
-        }
+
+              data[j + 1].color = 'green';
+              this.chart.render();
+
+              setTimeout(() => {
+                data[j].color = '#6b6b6b';
+                data[j + 1].color = '#6b6b6b';
+                this.chart.render();
+              },10)
+            }, 30);
+          } else {
+            data[j].color = '#6b6b6b';
+          }
+        }, delay);
+        delay += 50;
+      }
     }
   }
 }
