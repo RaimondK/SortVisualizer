@@ -189,12 +189,12 @@ export class ChartComponent implements OnInit {
     const data = this.chartOptions.data[0].dataPoints;
     for (let i = 0; i < data.length - 1; i++) {
       setTimeout(() => {
-        for (let j = 1; j < data.length - i; j++) {
+        for (let j = 0; j < data.length - i; j++) {
           setTimeout(() => {
-            if (data[j - 1].y > data[j].y) {
-              let temp = data[j - 1].y;
-              data[j - 1].y = data[j].y;
-              data[j].y = temp;
+            if (data[j].y > data[j + 1].y) {
+              let temp = data[j].y;
+              data[j].y = data[j + 1].y;
+              data[j + 1].y = temp;
             }
             this.chart.render();
           }, 50);
