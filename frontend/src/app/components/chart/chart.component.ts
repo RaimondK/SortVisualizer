@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
+import {SidebarService} from "../../services/sidebar/sidebar.service";
 
 @Component({
   selector: 'app-chart',
@@ -10,7 +11,7 @@ import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
   templateUrl: './chart.component.html',
   styleUrl: './chart.component.scss'
 })
-export class ChartComponent {
+export class ChartComponent implements OnInit {
 
   chart: any;
 
@@ -20,9 +21,16 @@ export class ChartComponent {
     title: {
       text: "Sorting algorithms"
     },
+    responsive: true,
     animationEnabled: true,
     axisY: {
-      includeZero: true
+      includeZero: false,
+    },
+    axisX: {
+      tickLength: 0,
+      labelFormatter: function (e: string) {
+        return "";
+      }
     },
     data: [{
       type: "column", //change type to bar, line, area, pie, etc
@@ -32,6 +40,23 @@ export class ChartComponent {
       indexLabelFontColor: "#5A5757",
       dataPoints: this.generateDataPoints(),
     }]
+  }
+
+  constructor(private sidebarService: SidebarService) {
+  };
+
+  ngOnInit(): void {
+    this.sidebarService.sidebarVisibility.subscribe(() => {
+      if (this.chart) {
+        setTimeout(() => {
+          this.chart.render();
+        }, 300);
+      }
+    });
+  }
+
+  getChartInstance(chart: any) {
+    this.chart = chart;
   }
 
   generateDataPoints() {
@@ -73,10 +98,6 @@ export class ChartComponent {
     }
   }
 
-  getChartInstance(chart: any) {
-    this.chart = chart;
-  }
-
   swapColumns() {
     const dataPoints = this.chartOptions.data[0].dataPoints;
 
@@ -107,7 +128,7 @@ export class ChartComponent {
             dataPoints[idx1].color = '#6b6b6b';
             dataPoints[idx2].color = '#6b6b6b';
             this.chart.render();
-          },300);
+          }, 300);
         }, 1000);
       }, i * 1500);
     }
@@ -162,6 +183,24 @@ export class ChartComponent {
     arr[idx].y = tmp;
 
     return idx;
+  }
+
+  bubbleSort() {
+    const data = this.chartOptions.data[0].dataPoints;
+    for (let i = 0; i < data.length - 1; i++) {
+      setTimeout(() => {
+        for (let j = 1; j < data.length - i; j++) {
+          setTimeout(() => {
+            if (data[j - 1].y > data[j].y) {
+              let temp = data[j - 1].y;
+              data[j - 1].y = data[j].y;
+              data[j].y = temp;
+            }
+            this.chart.render();
+          }, 50);
+        }
+      }, i * 100);
+    }
   }
 }
 
