@@ -188,8 +188,7 @@ export class ChartComponent implements OnInit {
   bubbleSort() {
     const data = this.chartOptions.data[0].dataPoints;
     for (let i = 0; i < data.length - 1; i++) {
-      setTimeout(() => {
-        for (let j = 0; j < data.length - i; j++) {
+        for (let j = 0; j < data.length - i - 1; j++) {
           setTimeout(() => {
             if (data[j].y > data[j + 1].y) {
               let temp = data[j].y;
@@ -197,9 +196,8 @@ export class ChartComponent implements OnInit {
               data[j + 1].y = temp;
             }
             this.chart.render();
-          }, 50);
+          }, 100);
         }
-      }, i * 100);
     }
   }
 }
