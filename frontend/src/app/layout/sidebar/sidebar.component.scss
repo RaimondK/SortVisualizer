@@ -4,8 +4,8 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  border-radius: 10px;
-  transition: all 0.3s;
+  border-radius: 100px;
+  transition: all 0.5s;
 }
 
 .sidebar {
@@ -16,8 +16,8 @@
   height: 100%;
   top: 0;
   left: 0;
-  overflow-x: hidden;
-  margin-top: 48px;
+  overflow: hidden;
+  margin-top: 45px;
 }
 
 .sidebar ul {
@@ -34,7 +34,7 @@
 
   &:hover {
     background-color: rgb(241, 241, 241);
-    color: #6c6c6c;
+    color: #000000;
 
   }
 

@@ -25,10 +25,11 @@ export class ChartComponent implements OnInit, OnDestroy {
     responsive: true,
     animationEnabled: true,
     axisY: {
-      includeZero: false,
+      includeZero: true,
     },
     axisX: {
-      tickLength: 0,
+      lineThickness: 0,
+      tickThickness: 0,
       labelFormatter: function (e: string) {
         return "";
       }
@@ -89,7 +90,7 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   generateDataPoints() {
     const dataPoints = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 10; i++) {
       dataPoints.push({
         y: Math.floor(Math.random() * 1000) + 1,
         color: '#6b6b6b'
@@ -156,13 +157,14 @@ export class ChartComponent implements OnInit, OnDestroy {
             dataPoints[idx1].color = '#6b6b6b';
             dataPoints[idx2].color = '#6b6b6b';
             this.chart.render();
-          }, 300);
-        }, 1000);
-      }, delay += 1500);
+          }, 100);
+        }, 300);
+      }, delay += 600);
     }
   }
 
   addData() {
+    let delay = 300;
     for (let i = 0; i < 5; i++) {
       setTimeout(() => {
         this.chartOptions.data[0].dataPoints.push({
@@ -170,7 +172,7 @@ export class ChartComponent implements OnInit, OnDestroy {
           color: '#6b6b6b'
         })
         this.chart.render();
-      }, i * 500);
+      }, i * delay);
     }
   }
 
@@ -215,37 +217,41 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   bubbleSort() {
     const data = this.chartOptions.data[0].dataPoints;
-    let delay = 0;
+    let i = 0;
+    let j = 0;
+    let swapped = false;
+    let delay = 100;
 
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j < data.length - 1 - i; j++) {
-        setTimeout(() => {
-          data[j].color = 'green';
-          this.chart.render();
-
+    const animate = () => {
+      if (i < data.length - 1) {
+        if (j < data.length - 1 - i) {
           if (data[j].y > data[j + 1].y) {
+            const temp = data[j].y;
+            data[j].y = data[j + 1].y;
+            data[j + 1].y = temp;
+            swapped = true;
 
-            setTimeout(() => {
-              const temp = data[j].y;
-              data[j].y = data[j + 1].y;
-              data[j + 1].y = temp;
-
-              data[j + 1].color = 'green';
-              this.chart.render();
-
-              setTimeout(() => {
-                data[j].color = '#6b6b6b';
-                data[j + 1].color = '#6b6b6b';
-                this.chart.render();
-              },10)
-            }, 30);
-          } else {
-            data[j].color = '#6b6b6b';
+            this.chart.render();
           }
-        }, delay);
-        delay += 50;
+          j++;
+        } else {
+          if (!swapped) {
+
+// This is for later once I'll add colors and want
+// to reset all colors of the chart in the end
+/*            data.forEach(test => test.color = '#6b6b6b');
+            this.chart.render();*/
+
+            return;
+          }
+          i++;
+          j = 0;
+          swapped = false;
+        }
+        setTimeout(() => requestAnimationFrame(animate), delay);
       }
-    }
+    };
+    requestAnimationFrame(animate);
   }
 }
 
