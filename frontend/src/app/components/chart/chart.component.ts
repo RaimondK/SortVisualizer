@@ -1,6 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
 import {SidebarService} from "../../services/sidebar/sidebar.service";
+import {animate} from "@angular/animations";
+import {delay} from "rxjs";
 
 @Component({
   selector: 'app-chart',
@@ -11,12 +13,14 @@ import {SidebarService} from "../../services/sidebar/sidebar.service";
   templateUrl: './chart.component.html',
   styleUrl: './chart.component.scss'
 })
-export class ChartComponent implements OnInit, OnDestroy {
+export class ChartComponent implements OnInit, OnDestroy, OnChanges {
+
+  @Input() dataPoints: { y: number, color: string }[] = [];
 
   chart: any;
+
   private animationFrameId: number | null = null;
 
-  title = 'angular17ssrapp';
   chartOptions = {
     exportEnabled: true,
     title: {
@@ -35,12 +39,11 @@ export class ChartComponent implements OnInit, OnDestroy {
       }
     },
     data: [{
-      type: "column", //change type to bar, line, area, pie, etc
-      //indexLabel: "{y}", //Shows y value on all Data Points
+      type: "column",
       color: "#6b6b6b",
       backgroundColor: "#F5DEB3",
       indexLabelFontColor: "#5A5757",
-      dataPoints: this.generateDataPoints(),
+      dataPoints: [] as { y: number, color: string }[],
     }]
   }
 
@@ -48,11 +51,23 @@ export class ChartComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    this.chartOptions.data[0].dataPoints = this.dataPoints;
+
     this.sidebarService.sidebarVisibility.subscribe(() => {
       if (this.chart) {
         this.startAnimation();
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dataPoints']) {
+      this.chartOptions.data[0].dataPoints = this.dataPoints;
+
+      if (this.chart) {
+        this.chart.render();
+      }
+    }
   }
 
   ngOnDestroy(): void {
@@ -86,45 +101,6 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   getChartInstance(chart: any) {
     this.chart = chart;
-  }
-
-  generateDataPoints() {
-    const dataPoints = [];
-    for (let i = 0; i < 10; i++) {
-      dataPoints.push({
-        y: Math.floor(Math.random() * 1000) + 1,
-        color: '#6b6b6b'
-      });
-    }
-    return dataPoints;
-  }
-
-// This generates the columns in an "animated" way,
-// but it's a bit too much, might use it later.
-
-  /*  generateDataPoints() {
-      const dataPoints: { y: number; color: string; }[] = [];
-      for (let i = 0; i < 100; i++) {
-        setTimeout(() => {
-          dataPoints.push({
-            y: Math.floor(Math.random() * 1000) + 1,
-            color: 'green'
-          });
-          console.log("Adding data points")
-          this.chart.render();
-        }, i * 50)
-      }
-      return dataPoints;
-    }*/
-
-  updateChart() {
-    this.chartOptions.data[0].dataPoints = this.generateDataPoints();
-
-    this.chartOptions.animationEnabled = true;
-
-    if (this.chart) {
-      this.chart.render();
-    }
   }
 
   swapColumns() {
@@ -175,83 +151,23 @@ export class ChartComponent implements OnInit, OnDestroy {
       }, i * delay);
     }
   }
-
-  quickSort() {
-    const data = this.chartOptions.data[0].dataPoints;
-    this.qs(data, 0, data.length - 1);
-    this.chart.render();
-  }
-
-  qs(arr: { y: number }[], low: number, high: number) {
-    if (low >= high) {
-      return
-    }
-
-    const pivotIdx = this.partition(arr, low, high);
-
-    this.qs(arr, low, pivotIdx - 1);
-    this.qs(arr, pivotIdx + 1, high);
-  }
-
-  partition(arr: { y: number }[], low: number, high: number): number {
-    const pivot = arr[high].y;
-
-    let idx = low - 1;
-
-    for (let i = low; i < high; i++) {
-      if (arr[i].y <= pivot) {
-        idx++;
-        const tmp = arr[i].y;
-        arr[i].y = arr[idx].y;
-        arr[idx].y = tmp;
-      }
-    }
-
-    idx++;
-    const tmp = arr[high].y;
-    arr[high].y = arr[idx].y;
-    arr[idx].y = tmp;
-
-    return idx;
-  }
-
-  bubbleSort() {
-    const data = this.chartOptions.data[0].dataPoints;
-    let i = 0;
-    let j = 0;
-    let swapped = false;
-    let delay = 100;
-
-    const animate = () => {
-      if (i < data.length - 1) {
-        if (j < data.length - 1 - i) {
-          if (data[j].y > data[j + 1].y) {
-            const temp = data[j].y;
-            data[j].y = data[j + 1].y;
-            data[j + 1].y = temp;
-            swapped = true;
-
-            this.chart.render();
-          }
-          j++;
-        } else {
-          if (!swapped) {
-
-// This is for later once I'll add colors and want
-// to reset all colors of the chart in the end
-/*            data.forEach(test => test.color = '#6b6b6b');
-            this.chart.render();*/
-
-            return;
-          }
-          i++;
-          j = 0;
-          swapped = false;
-        }
-        setTimeout(() => requestAnimationFrame(animate), delay);
-      }
-    };
-    requestAnimationFrame(animate);
-  }
 }
+
+// This generates the columns in an "animated" way,
+// but it's a bit too much, might use it later.
+
+/*  generateDataPoints() {
+    const dataPoints: { y: number; color: string; }[] = [];
+    for (let i = 0; i < 100; i++) {
+      setTimeout(() => {
+        dataPoints.push({
+          y: Math.floor(Math.random() * 1000) + 1,
+          color: 'green'
+        });
+        console.log("Adding data points")
+        this.chart.render();
+      }, i * 50)
+    }
+    return dataPoints;
+  }*/
 

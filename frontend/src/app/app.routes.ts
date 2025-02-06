@@ -1,6 +1,7 @@
 import {Routes} from '@angular/router';
-import {ChartComponent} from "./components/chart/chart.component";
 import {WelcomeComponent} from "./components/welcome/welcome.component";
+import {QuicksortComponent} from "./components/quicksort/quicksort.component";
+import {BubblesortComponent} from "./components/bubblesort/bubblesort.component";
 
 export const routes: Routes = [
   {
@@ -9,6 +10,10 @@ export const routes: Routes = [
   },
   {
     path: 'quicksort',
-    component: ChartComponent
+    component: QuicksortComponent
+  },
+  {
+    path: 'bubblesort',
+    component: BubblesortComponent
   },
 ];
