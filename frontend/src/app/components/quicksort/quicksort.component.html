@@ -1,2 +1,19 @@
-<button (click)="quickSort()">Quick Sort</button>
-<app-chart [dataPoints]="chartOptions.data[0].dataPoints"></app-chart>
+<div>
+  <div>
+    <label for="columnSize">Number of Columns:</label>
+    <input type="number"
+           id="columnSize"
+           [(ngModel)]="columnCount"
+           min="0"
+           max="500"
+           step="5">
+    <button (click)="generateColumns()">Generate Columns</button>
+    <button (click)="quickSort()">Quick Sort</button>
+  </div>
+  <!-- add this later-->
+<!--  <div>
+    <label>Sorting delay(ms):</label>
+    <input type="text" id="delay" [(ngModel)]="delay">
+  </div>-->
+  <app-chart [dataPoints]="chartOptions.data[0].dataPoints" [chartTitle]="chartTitle"></app-chart>
+</div>

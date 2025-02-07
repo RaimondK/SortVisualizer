@@ -7,14 +7,10 @@ export class DataService {
 
   constructor() { }
 
-  generateDataPoints() {
-    const dataPoints = [];
-    for (let i = 0; i < 10; i++) {
-      dataPoints.push({
-        y: Math.floor(Math.random() * 1000) + 1,
-        color: '#6b6b6b'
-      });
-    }
-    return dataPoints;
+  generateDataPoints(size: number = 100): { y: number; color: string }[] {
+    return Array.from({ length: size }, () => ({
+      y: Math.floor(Math.random() * 1000) + 1,
+      color: '#6b6b6b',
+    }));
   }
 }
