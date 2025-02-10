@@ -4,10 +4,12 @@
     <input type="number"
            id="columnSize"
            [(ngModel)]="columnCount"
+           (ngModelChange)="generateColumns()"
            min="0"
            max="500"
-           step="5">
-    <button (click)="generateColumns()">Generate Columns</button>
+           step="5"
+           autocomplete="off">
+    <button (click)="generateColumns()">Reset Columns</button>
     <button (click)="quickSort()">Quick Sort</button>
   </div>
   <!-- add this later-->

@@ -4,20 +4,24 @@
     <input type="number"
            id="columnSize"
            [(ngModel)]="columnCount"
+           (ngModelChange)="generateColumns()"
            min="0"
            max="500"
-           step="5">
-    <button (click)="generateColumns()">Generate Columns</button>
+           step="5"
+           autocomplete="off">
+    <button (click)="generateColumns()">Reset Columns</button>
     <button (click)="bubbleSort()">Bubble Sort</button>
   </div>
   <div>
     <label>Sorting delay(ms):</label>
     <input type="number"
-           id="delay"
-           [(ngModel)]="delay"
+           id="visualizationDelay"
+           [(ngModel)]="visualizationDelay"
+           (ngModelChange)="visualizationDelay"
            min="0"
            max="500"
-           step="5">
+           step="5"
+           autocomplete="off">
   </div>
   <app-chart [dataPoints]="chartOptions.data[0].dataPoints" [chartTitle]="chartTitle"></app-chart>
 </div>

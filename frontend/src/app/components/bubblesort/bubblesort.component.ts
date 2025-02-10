@@ -18,15 +18,27 @@ export class BubblesortComponent implements OnInit {
   chartOptions: any;
   chartTitle: string = "Bubble Sort"
   columnCount: number = 100;
-  delay :number = 100;
+  private delay :number = 100;
+
+  get visualizationDelay(): number {
+    return this.delay;
+  }
+
+  set visualizationDelay(value: number) {
+    if (value < 1) {
+      this.delay = 1;
+    } else if (value > 10000) {
+      this.delay = 10000;
+    } else {
+      this.delay = value;
+    }
+  }
 
   constructor(private sortingService: SortingAlgorithmsService,
               private dataService: DataService) {
     this.chartOptions = {
       data: [
         {
-          type: 'column',
-          color: '#6b6b6b',
           dataPoints: this.dataService.generateDataPoints(),
         },
       ],
@@ -40,11 +52,16 @@ export class BubblesortComponent implements OnInit {
   }
 
   generateColumns() {
+    if (this.columnCount <= 0) {
+      this.columnCount = 2;
+    } else if (this.columnCount > 500) {
+      this.columnCount = 500;
+    }
     this.chartOptions.data[0].dataPoints = this.dataService.generateDataPoints(this.columnCount);
     this.chartOptions = { ...this.chartOptions };
   }
 
   bubbleSort() {
-    this.sortingService.bubbleSort(this.chartOptions.data[0].dataPoints, this.delay);
+    this.sortingService.bubbleSort(this.chartOptions.data[0].dataPoints, this.visualizationDelay);
   }
 }

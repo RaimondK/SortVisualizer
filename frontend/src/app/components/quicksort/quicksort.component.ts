@@ -27,8 +27,6 @@ export class QuicksortComponent implements OnInit {
     this.chartOptions = {
       data: [
         {
-          type: 'column',
-          color: '#6b6b6b',
           dataPoints: this.dataService.generateDataPoints(this.columnCount),
         },
       ],
@@ -42,6 +40,11 @@ export class QuicksortComponent implements OnInit {
   }
 
   generateColumns() {
+    if (this.columnCount <= 0) {
+      this.columnCount = 2;
+    } else if (this.columnCount > 500) {
+      this.columnCount = 500;
+    }
     this.chartOptions.data[0].dataPoints = this.dataService.generateDataPoints(this.columnCount);
     this.chartOptions = { ...this.chartOptions };
   }
