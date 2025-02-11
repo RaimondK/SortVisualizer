@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import {Subject} from "rxjs";
+import {Injectable} from '@angular/core';
+import {min, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +47,7 @@ export class SortingAlgorithmsService {
     return idx;
   }
 
-  bubbleSort(data: { y: number; color: string }[], delay: number = 100) {
+  bubbleSort(data: { y: number; color: string }[], delay: number) {
     let i = 0;
     let j = 0;
     let swapped = false;
@@ -55,34 +55,61 @@ export class SortingAlgorithmsService {
     const animate = () => {
       if (i < data.length - 1) {
         if (j < data.length - 1 - i) {
+          data.forEach((columns) => (columns.color = '#6b6b6b'));
+          data[j].color = 'green';
+          data[j + 1].color = '#6b6b6b';
+          this.dataSubject.next([...data]);
 
-          data[j].color = '#6b6b6b';
-          data[j + 1].color = 'green';
+          setTimeout(() => {
+            if (data[j].y > data[j + 1].y) {
+              this.dataSubject.next([...data]);
 
-          if (data[j].y > data[j + 1].y) {
+              setTimeout(() => {
+                const temp = data[j].y;
+                data[j].y = data[j + 1].y;
+                data[j + 1].y = temp;
+                swapped = true;
 
-            const temp = data[j].y;
-            data[j].y = data[j + 1].y;
-            data[j + 1].y = temp;
-            swapped = true;
+                data[j].color = 'green';
+                data[j + 1].color = '#6b6b6b';
+                this.dataSubject.next([...data]);
 
-            this.dataSubject.next([...data]);
-
-          }
-          j++;
+                j++;
+                requestAnimationFrame(animate);
+              }, delay / 3);
+            } else {
+              j++;
+              requestAnimationFrame(animate);
+            }
+          }, delay / 2);
         } else {
           if (!swapped) {
-            data.forEach((point) => (point.color = '#6b6b6b'));
+            data.forEach((columns) => (columns.color = 'green'));
             this.dataSubject.next([...data]);
             return;
           }
           i++;
           j = 0;
           swapped = false;
+          requestAnimationFrame(animate);
         }
-        setTimeout(() => requestAnimationFrame(animate), delay);
       }
     };
     requestAnimationFrame(animate);
+  }
+
+  selectionSort(data: ({y: number, color: string})[], delay: number) {
+    for (let i = 0; i < data.length - 1; i++) {
+      let minIdx = i;
+        for (let j = i + 1; j < data.length; j++) {
+          if (data[j] < data[minIdx]) {
+            minIdx = j;
+          }
+        }
+        let temp = data[i];
+        data[i] = data[minIdx];
+        data[minIdx] = temp;
+    }
+    this.dataSubject.next([...data]);
   }
 }

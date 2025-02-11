@@ -1,23 +1,24 @@
 import {Component, OnInit} from '@angular/core';
 import {SortingAlgorithmsService} from "../../services/sorting-algorithms/sorting-algorithms.service";
-import {ChartComponent} from "../chart/chart.component";
 import {DataService} from "../../services/data/data.service";
-import {FormsModule} from "@angular/forms";
+import {ChartComponent} from "../chart/chart.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-bubblesort',
+  selector: 'app-selectionsort',
   standalone: true,
   imports: [
     ChartComponent,
+    ReactiveFormsModule,
     FormsModule
   ],
-  templateUrl: './bubblesort.component.html',
-  styleUrl: './bubblesort.component.scss'
+  templateUrl: './selectionsort.component.html',
+  styleUrl: './selectionsort.component.scss'
 })
-export class BubblesortComponent implements OnInit {
+export class SelectionsortComponent implements OnInit {
 
   chartOptions: any;
-  chartTitle: string = "Bubble Sort"
+  chartTitle: string = "Selection sort"
   columnCount: number = 100;
   private delay: number = 100;
 
@@ -62,7 +63,8 @@ export class BubblesortComponent implements OnInit {
     this.chartOptions = {...this.chartOptions};
   }
 
-  bubbleSort() {
-    this.sortingService.bubbleSort(this.chartOptions.data[0].dataPoints, this.visualizationDelay);
+  selectionSort() {
+    this.sortingService.selectionSort(this.chartOptions.data[0].dataPoints, this.visualizationDelay);
   }
+
 }
