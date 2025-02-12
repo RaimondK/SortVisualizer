@@ -3,6 +3,7 @@ import {WelcomeComponent} from "./components/welcome/welcome.component";
 import {QuickSortComponent} from "./components/quick-sort/quick-sort.component";
 import {BubbleSortComponent} from "./components/bubble-sort/bubble-sort.component";
 import {SelectionSortComponent} from "./components/selection-sort/selection-sort.component";
+import {InsertionSortComponent} from "./components/insertion-sort/insertion-sort.component";
 
 export const routes: Routes = [
   {
@@ -23,6 +24,6 @@ export const routes: Routes = [
   },
   {
     path: 'insertion-sort',
-    component: SelectionSortComponent
+    component: InsertionSortComponent
   },
 ];

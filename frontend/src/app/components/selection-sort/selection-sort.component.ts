@@ -66,5 +66,4 @@ export class SelectionSortComponent implements OnInit {
   selectionSort() {
     this.sortingService.selectionSort(this.chartOptions.data[0].dataPoints, this.visualizationDelay);
   }
-
 }

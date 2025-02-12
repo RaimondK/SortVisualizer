@@ -102,26 +102,27 @@ export class SortingAlgorithmsService {
     for (let i = 0; i < data.length - 1; i++) {
       let minIdx = i;
         for (let j = i + 1; j < data.length; j++) {
-          if (data[j] < data[minIdx]) {
+          if (data[j].y < data[minIdx].y) {
             minIdx = j;
           }
         }
-        let temp = data[i];
-        data[i] = data[minIdx];
-        data[minIdx] = temp;
+        let temp = data[i].y;
+        data[i].y = data[minIdx].y;
+        data[minIdx].y = temp;
     }
     this.dataSubject.next([...data]);
   }
 
   insertionSort(data: ({y: number, color: string})[], delay: number) {
     for (let i = 1; i < data.length; i ++) {
-      let key = data[i];
+      let key = data[i].y;
       let j = i - 1;
-        while (j >= 0 && data[j] > key) {
-          data[j + 1] = data[j];
+        while (j >= 0 && data[j].y > key) {
+          data[j + 1].y = data[j].y;
           j = j - 1;
         }
-        data[j + 1] = key;
+        data[j + 1].y = key;
     }
+    this.dataSubject.next([...data]);
   }
 }
