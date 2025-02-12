@@ -1,8 +1,8 @@
 import {Routes} from '@angular/router';
 import {WelcomeComponent} from "./components/welcome/welcome.component";
-import {QuicksortComponent} from "./components/quicksort/quicksort.component";
-import {BubblesortComponent} from "./components/bubblesort/bubblesort.component";
-import {SelectionsortComponent} from "./components/selectionsort/selectionsort.component";
+import {QuickSortComponent} from "./components/quick-sort/quick-sort.component";
+import {BubbleSortComponent} from "./components/bubble-sort/bubble-sort.component";
+import {SelectionSortComponent} from "./components/selection-sort/selection-sort.component";
 
 export const routes: Routes = [
   {
@@ -10,15 +10,19 @@ export const routes: Routes = [
     component: WelcomeComponent
   },
   {
-    path: 'quicksort',
-    component: QuicksortComponent
+    path: 'quick-sort',
+    component: QuickSortComponent
   },
   {
-    path: 'bubblesort',
-    component: BubblesortComponent
+    path: 'bubble-sort',
+    component: BubbleSortComponent
   },
   {
-    path: 'selectionsort',
-    component: SelectionsortComponent
+    path: 'selection-sort',
+    component: SelectionSortComponent
+  },
+  {
+    path: 'insertion-sort',
+    component: SelectionSortComponent
   },
 ];

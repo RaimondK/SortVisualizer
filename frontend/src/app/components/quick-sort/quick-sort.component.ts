@@ -3,44 +3,31 @@ import {SortingAlgorithmsService} from "../../services/sorting-algorithms/sortin
 import {ChartComponent} from "../chart/chart.component";
 import {DataService} from "../../services/data/data.service";
 import {FormsModule} from "@angular/forms";
+import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-bubblesort',
+  selector: 'app-quick-sort',
   standalone: true,
   imports: [
     ChartComponent,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
-  templateUrl: './bubblesort.component.html',
-  styleUrl: './bubblesort.component.scss'
+  templateUrl: './quick-sort.component.html',
+  styleUrl: './quick-sort.component.scss'
 })
-export class BubblesortComponent implements OnInit {
+export class QuickSortComponent implements OnInit {
 
   chartOptions: any;
-  chartTitle: string = "Bubble Sort"
   columnCount: number = 100;
-  private delay: number = 100;
-
-  get visualizationDelay(): number {
-    return this.delay;
-  }
-
-  set visualizationDelay(value: number) {
-    if (value < 1) {
-      this.delay = 1;
-    } else if (value > 10000) {
-      this.delay = 10000;
-    } else {
-      this.delay = value;
-    }
-  }
+  chartTitle: string = "Quick sort";
 
   constructor(private sortingService: SortingAlgorithmsService,
               private dataService: DataService) {
     this.chartOptions = {
       data: [
         {
-          dataPoints: this.dataService.generateDataPoints(),
+          dataPoints: this.dataService.generateDataPoints(this.columnCount),
         },
       ],
     };
@@ -59,10 +46,10 @@ export class BubblesortComponent implements OnInit {
       this.columnCount = 500;
     }
     this.chartOptions.data[0].dataPoints = this.dataService.generateDataPoints(this.columnCount);
-    this.chartOptions = {...this.chartOptions};
+    this.chartOptions = { ...this.chartOptions };
   }
 
-  bubbleSort() {
-    this.sortingService.bubbleSort(this.chartOptions.data[0].dataPoints, this.visualizationDelay);
+  quickSort() {
+    this.sortingService.quickSort(this.chartOptions.data[0].dataPoints);
   }
 }

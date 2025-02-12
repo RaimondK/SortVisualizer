@@ -5,17 +5,17 @@ import {ChartComponent} from "../chart/chart.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-selectionsort',
+  selector: 'app-selection-sort',
   standalone: true,
   imports: [
     ChartComponent,
     ReactiveFormsModule,
     FormsModule
   ],
-  templateUrl: './selectionsort.component.html',
-  styleUrl: './selectionsort.component.scss'
+  templateUrl: './selection-sort.component.html',
+  styleUrl: './selection-sort.component.scss'
 })
-export class SelectionsortComponent implements OnInit {
+export class SelectionSortComponent implements OnInit {
 
   chartOptions: any;
   chartTitle: string = "Selection sort"

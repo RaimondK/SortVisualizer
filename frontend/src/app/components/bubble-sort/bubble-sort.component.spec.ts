@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuicksortComponent } from './quicksort.component';
+import { BubbleSortComponent } from './bubble-sort.component';
 
-describe('QuicksortComponent', () => {
-  let component: QuicksortComponent;
-  let fixture: ComponentFixture<QuicksortComponent>;
+describe('BubblesortComponent', () => {
+  let component: BubbleSortComponent;
+  let fixture: ComponentFixture<BubbleSortComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuicksortComponent]
+      imports: [BubbleSortComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(QuicksortComponent);
+    fixture = TestBed.createComponent(BubbleSortComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

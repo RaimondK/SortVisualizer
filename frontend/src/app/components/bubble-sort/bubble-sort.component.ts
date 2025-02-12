@@ -3,31 +3,44 @@ import {SortingAlgorithmsService} from "../../services/sorting-algorithms/sortin
 import {ChartComponent} from "../chart/chart.component";
 import {DataService} from "../../services/data/data.service";
 import {FormsModule} from "@angular/forms";
-import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-quicksort',
+  selector: 'app-bubble-sort',
   standalone: true,
   imports: [
     ChartComponent,
-    FormsModule,
-    NgIf
+    FormsModule
   ],
-  templateUrl: './quicksort.component.html',
-  styleUrl: './quicksort.component.scss'
+  templateUrl: './bubble-sort.component.html',
+  styleUrl: './bubble-sort.component.scss'
 })
-export class QuicksortComponent implements OnInit {
+export class BubbleSortComponent implements OnInit {
 
   chartOptions: any;
+  chartTitle: string = "Bubble Sort"
   columnCount: number = 100;
-  chartTitle: string = "Quick sort";
+  private delay: number = 100;
+
+  get visualizationDelay(): number {
+    return this.delay;
+  }
+
+  set visualizationDelay(value: number) {
+    if (value < 1) {
+      this.delay = 1;
+    } else if (value > 10000) {
+      this.delay = 10000;
+    } else {
+      this.delay = value;
+    }
+  }
 
   constructor(private sortingService: SortingAlgorithmsService,
               private dataService: DataService) {
     this.chartOptions = {
       data: [
         {
-          dataPoints: this.dataService.generateDataPoints(this.columnCount),
+          dataPoints: this.dataService.generateDataPoints(),
         },
       ],
     };
@@ -46,10 +59,10 @@ export class QuicksortComponent implements OnInit {
       this.columnCount = 500;
     }
     this.chartOptions.data[0].dataPoints = this.dataService.generateDataPoints(this.columnCount);
-    this.chartOptions = { ...this.chartOptions };
+    this.chartOptions = {...this.chartOptions};
   }
 
-  quickSort() {
-    this.sortingService.quickSort(this.chartOptions.data[0].dataPoints);
+  bubbleSort() {
+    this.sortingService.bubbleSort(this.chartOptions.data[0].dataPoints, this.visualizationDelay);
   }
 }
