@@ -98,30 +98,58 @@ export class SortingAlgorithmsService {
     requestAnimationFrame(animate);
   }
 
-  selectionSort(data: ({y: number, color: string})[], delay: number) {
-    for (let i = 0; i < data.length - 1; i++) {
-      let minIdx = i;
-        for (let j = i + 1; j < data.length; j++) {
-          if (data[j].y < data[minIdx].y) {
-            minIdx = j;
+  selectionSort(data: ({ y: number, color: string })[], delay: number) {
+    let i = 0;
+    let minIdx = i;
+    let j = i + 1;
+
+    const animate = () => {
+      if (i < data.length - 1) {
+          if (j < data.length) {
+            data[minIdx].color = 'yellow';
+            data[j].color = 'red';
+            this.dataSubject.next([...data]);
+            setTimeout(() => {
+              data[minIdx].color = '#6b6b6b';
+              if (data[j].y < data[minIdx].y) {
+                minIdx = j;
+                this.dataSubject.next([...data]);
+              }
+              data[j].color = '#6b6b6b';
+              j++;
+
+            }, delay);
+            requestAnimationFrame(animate);
+          } else {
+            let temp = data[i].y;
+            data[i].y = data[minIdx].y;
+            data[minIdx].y = temp;
+
+            data[i].color = 'green';
+            this.dataSubject.next([...data]);
+
+            i++;
+            j = i + 1;
+            minIdx = i;
+
+            requestAnimationFrame(animate);
           }
-        }
-        let temp = data[i].y;
-        data[i].y = data[minIdx].y;
-        data[minIdx].y = temp;
-    }
-    this.dataSubject.next([...data]);
+      }
+      data[i].color = 'green';
+      this.dataSubject.next([...data]);
+    };
+    requestAnimationFrame(animate);
   }
 
-  insertionSort(data: ({y: number, color: string})[], delay: number) {
-    for (let i = 1; i < data.length; i ++) {
+  insertionSort(data: ({ y: number, color: string })[], delay: number) {
+    for (let i = 1; i < data.length; i++) {
       let key = data[i].y;
       let j = i - 1;
-        while (j >= 0 && data[j].y > key) {
-          data[j + 1].y = data[j].y;
-          j = j - 1;
-        }
-        data[j + 1].y = key;
+      while (j >= 0 && data[j].y > key) {
+        data[j + 1].y = data[j].y;
+        j = j - 1;
+      }
+      data[j + 1].y = key;
     }
     this.dataSubject.next([...data]);
   }
